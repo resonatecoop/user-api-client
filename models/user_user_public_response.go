@@ -29,8 +29,14 @@ type UserUserPublicResponse struct {
 	// full name
 	FullName string `json:"fullName,omitempty"`
 
+	// id
+	ID string `json:"id,omitempty"`
+
 	// last name
 	LastName string `json:"lastName,omitempty"`
+
+	// legacy Id
+	LegacyID int32 `json:"legacyId,omitempty"`
 
 	// member
 	Member bool `json:"member,omitempty"`

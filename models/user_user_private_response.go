@@ -38,6 +38,9 @@ type UserUserPrivateResponse struct {
 	// last name
 	LastName string `json:"lastName,omitempty"`
 
+	// legacy Id
+	LegacyID int32 `json:"legacyId,omitempty"`
+
 	// member
 	Member bool `json:"member,omitempty"`
 
