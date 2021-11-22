@@ -51,6 +51,8 @@ func (m *UserUserGroupListResponse) validateUsergroup(formats strfmt.Registry) e
 			if err := m.Usergroup[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("usergroup" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("usergroup" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -83,6 +85,8 @@ func (m *UserUserGroupListResponse) contextValidateUsergroup(ctx context.Context
 			if err := m.Usergroup[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("usergroup" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("usergroup" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

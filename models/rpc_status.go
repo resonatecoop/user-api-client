@@ -57,6 +57,8 @@ func (m *RPCStatus) validateDetails(formats strfmt.Registry) error {
 			if err := m.Details[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("details" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("details" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -89,6 +91,8 @@ func (m *RPCStatus) contextValidateDetails(ctx context.Context, formats strfmt.R
 			if err := m.Details[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("details" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("details" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

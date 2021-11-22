@@ -38,6 +38,9 @@ type UserUserAddRequest struct {
 	// newsletter notification
 	NewsletterNotification bool `json:"newsletterNotification,omitempty"`
 
+	// role Id
+	RoleID int32 `json:"roleId,omitempty"`
+
 	// username
 	Username string `json:"username,omitempty"`
 }

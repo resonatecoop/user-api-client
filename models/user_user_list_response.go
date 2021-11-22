@@ -51,6 +51,8 @@ func (m *UserUserListResponse) validateUser(formats strfmt.Registry) error {
 			if err := m.User[i].Validate(formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("user" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("user" + "." + strconv.Itoa(i))
 				}
 				return err
 			}
@@ -83,6 +85,8 @@ func (m *UserUserListResponse) contextValidateUser(ctx context.Context, formats 
 			if err := m.User[i].ContextValidate(ctx, formats); err != nil {
 				if ve, ok := err.(*errors.Validation); ok {
 					return ve.ValidateName("user" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("user" + "." + strconv.Itoa(i))
 				}
 				return err
 			}

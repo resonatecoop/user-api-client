@@ -47,6 +47,9 @@ type UserUserPublicResponse struct {
 	// personas
 	Personas []string `json:"personas"`
 
+	// role Id
+	RoleID int32 `json:"roleId,omitempty"`
+
 	// username
 	Username string `json:"username,omitempty"`
 }
