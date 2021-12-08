@@ -34,6 +34,8 @@ type ClientService interface {
 
 	ResonateUserGetUser(params *ResonateUserGetUserParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ResonateUserGetUserOK, error)
 
+	ResonateUserGetUserCredits(params *ResonateUserGetUserCreditsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ResonateUserGetUserCreditsOK, error)
+
 	ResonateUserGetUserRestricted(params *ResonateUserGetUserRestrictedParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ResonateUserGetUserRestrictedOK, error)
 
 	ResonateUserListUsers(params *ResonateUserListUsersParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ResonateUserListUsersOK, error)
@@ -162,6 +164,46 @@ func (a *Client) ResonateUserGetUser(params *ResonateUserGetUserParams, authInfo
 	}
 	// unexpected success response
 	unexpectedSuccess := result.(*ResonateUserGetUserDefault)
+	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
+}
+
+/*
+  ResonateUserGetUserCredits gets user credits
+
+  Get user credits.
+*/
+func (a *Client) ResonateUserGetUserCredits(params *ResonateUserGetUserCreditsParams, authInfo runtime.ClientAuthInfoWriter, opts ...ClientOption) (*ResonateUserGetUserCreditsOK, error) {
+	// TODO: Validate the params before sending
+	if params == nil {
+		params = NewResonateUserGetUserCreditsParams()
+	}
+	op := &runtime.ClientOperation{
+		ID:                 "ResonateUser_GetUserCredits",
+		Method:             "GET",
+		PathPattern:        "/api/v1/user/{id}/credits",
+		ProducesMediaTypes: []string{"application/json"},
+		ConsumesMediaTypes: []string{"application/json"},
+		Schemes:            []string{"https"},
+		Params:             params,
+		Reader:             &ResonateUserGetUserCreditsReader{formats: a.formats},
+		AuthInfo:           authInfo,
+		Context:            params.Context,
+		Client:             params.HTTPClient,
+	}
+	for _, opt := range opts {
+		opt(op)
+	}
+
+	result, err := a.transport.Submit(op)
+	if err != nil {
+		return nil, err
+	}
+	success, ok := result.(*ResonateUserGetUserCreditsOK)
+	if ok {
+		return success, nil
+	}
+	// unexpected success response
+	unexpectedSuccess := result.(*ResonateUserGetUserCreditsDefault)
 	return nil, runtime.NewAPIError("unexpected success response: content available as default response in error", unexpectedSuccess, unexpectedSuccess.Code())
 }
 
