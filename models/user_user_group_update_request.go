@@ -38,11 +38,17 @@ type UserUserGroupUpdateRequest struct {
 	// id
 	ID string `json:"id,omitempty"`
 
+	// links
+	Links []string `json:"links"`
+
 	// owner Id
 	OwnerID string `json:"ownerId,omitempty"`
 
 	// short bio
 	ShortBio string `json:"shortBio,omitempty"`
+
+	// tags
+	Tags []string `json:"tags"`
 }
 
 // Validate validates this user user group update request

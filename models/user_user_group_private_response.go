@@ -23,6 +23,9 @@ type UserUserGroupPrivateResponse struct {
 	// banner
 	Banner string `json:"banner,omitempty"`
 
+	// created at
+	CreatedAt string `json:"createdAt,omitempty"`
+
 	// description
 	Description string `json:"description,omitempty"`
 
@@ -52,6 +55,9 @@ type UserUserGroupPrivateResponse struct {
 
 	// short bio
 	ShortBio string `json:"shortBio,omitempty"`
+
+	// updated at
+	UpdatedAt string `json:"updatedAt,omitempty"`
 }
 
 // Validate validates this user user group private response

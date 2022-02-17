@@ -7,7 +7,9 @@ package models
 
 import (
 	"context"
+	"strconv"
 
+	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -41,7 +43,7 @@ type UserUserGroupPublicResponse struct {
 	GroupType string `json:"groupType,omitempty"`
 
 	// links
-	Links []string `json:"links"`
+	Links []*UserLink `json:"links"`
 
 	// member of groups
 	MemberOfGroups []string `json:"memberOfGroups"`
@@ -58,11 +60,75 @@ type UserUserGroupPublicResponse struct {
 
 // Validate validates this user user group public response
 func (m *UserUserGroupPublicResponse) Validate(formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.validateLinks(formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
 	return nil
 }
 
-// ContextValidate validates this user user group public response based on context it is used
+func (m *UserUserGroupPublicResponse) validateLinks(formats strfmt.Registry) error {
+	if swag.IsZero(m.Links) { // not required
+		return nil
+	}
+
+	for i := 0; i < len(m.Links); i++ {
+		if swag.IsZero(m.Links[i]) { // not required
+			continue
+		}
+
+		if m.Links[i] != nil {
+			if err := m.Links[i].Validate(formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("links" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("links" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
+	return nil
+}
+
+// ContextValidate validate this user user group public response based on the context it is used
 func (m *UserUserGroupPublicResponse) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
+	var res []error
+
+	if err := m.contextValidateLinks(ctx, formats); err != nil {
+		res = append(res, err)
+	}
+
+	if len(res) > 0 {
+		return errors.CompositeValidationError(res...)
+	}
+	return nil
+}
+
+func (m *UserUserGroupPublicResponse) contextValidateLinks(ctx context.Context, formats strfmt.Registry) error {
+
+	for i := 0; i < len(m.Links); i++ {
+
+		if m.Links[i] != nil {
+			if err := m.Links[i].ContextValidate(ctx, formats); err != nil {
+				if ve, ok := err.(*errors.Validation); ok {
+					return ve.ValidateName("links" + "." + strconv.Itoa(i))
+				} else if ce, ok := err.(*errors.CompositeError); ok {
+					return ce.ValidateName("links" + "." + strconv.Itoa(i))
+				}
+				return err
+			}
+		}
+
+	}
+
 	return nil
 }
 

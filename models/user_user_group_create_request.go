@@ -7,9 +7,7 @@ package models
 
 import (
 	"context"
-	"strconv"
 
-	"github.com/go-openapi/errors"
 	"github.com/go-openapi/strfmt"
 	"github.com/go-openapi/swag"
 )
@@ -40,84 +38,23 @@ type UserUserGroupCreateRequest struct {
 	// id
 	ID string `json:"id,omitempty"`
 
+	// links
+	Links []string `json:"links"`
+
 	// short bio
 	ShortBio string `json:"shortBio,omitempty"`
 
 	// tags
-	Tags []*UserTag `json:"tags"`
+	Tags []string `json:"tags"`
 }
 
 // Validate validates this user user group create request
 func (m *UserUserGroupCreateRequest) Validate(formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.validateTags(formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
 	return nil
 }
 
-func (m *UserUserGroupCreateRequest) validateTags(formats strfmt.Registry) error {
-	if swag.IsZero(m.Tags) { // not required
-		return nil
-	}
-
-	for i := 0; i < len(m.Tags); i++ {
-		if swag.IsZero(m.Tags[i]) { // not required
-			continue
-		}
-
-		if m.Tags[i] != nil {
-			if err := m.Tags[i].Validate(formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
-	return nil
-}
-
-// ContextValidate validate this user user group create request based on the context it is used
+// ContextValidate validates this user user group create request based on context it is used
 func (m *UserUserGroupCreateRequest) ContextValidate(ctx context.Context, formats strfmt.Registry) error {
-	var res []error
-
-	if err := m.contextValidateTags(ctx, formats); err != nil {
-		res = append(res, err)
-	}
-
-	if len(res) > 0 {
-		return errors.CompositeValidationError(res...)
-	}
-	return nil
-}
-
-func (m *UserUserGroupCreateRequest) contextValidateTags(ctx context.Context, formats strfmt.Registry) error {
-
-	for i := 0; i < len(m.Tags); i++ {
-
-		if m.Tags[i] != nil {
-			if err := m.Tags[i].ContextValidate(ctx, formats); err != nil {
-				if ve, ok := err.(*errors.Validation); ok {
-					return ve.ValidateName("tags" + "." + strconv.Itoa(i))
-				} else if ce, ok := err.(*errors.CompositeError); ok {
-					return ce.ValidateName("tags" + "." + strconv.Itoa(i))
-				}
-				return err
-			}
-		}
-
-	}
-
 	return nil
 }
 
