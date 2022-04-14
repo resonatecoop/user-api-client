@@ -10,6 +10,7 @@ import (
 	httptransport "github.com/go-openapi/runtime/client"
 	"github.com/go-openapi/strfmt"
 
+	"github.com/resonatecoop/user-api-client/client/membership"
 	"github.com/resonatecoop/user-api-client/client/usergroups"
 	"github.com/resonatecoop/user-api-client/client/users"
 )
@@ -56,6 +57,7 @@ func New(transport runtime.ClientTransport, formats strfmt.Registry) *ResonateSe
 
 	cli := new(ResonateServiceDocumentationUser)
 	cli.Transport = transport
+	cli.Membership = membership.New(transport, formats)
 	cli.Usergroups = usergroups.New(transport, formats)
 	cli.Users = users.New(transport, formats)
 	return cli
@@ -102,6 +104,8 @@ func (cfg *TransportConfig) WithSchemes(schemes []string) *TransportConfig {
 
 // ResonateServiceDocumentationUser is a client for resonate service documentation user
 type ResonateServiceDocumentationUser struct {
+	Membership membership.ClientService
+
 	Usergroups usergroups.ClientService
 
 	Users users.ClientService
@@ -112,6 +116,7 @@ type ResonateServiceDocumentationUser struct {
 // SetTransport changes the transport on the client and all its subresources
 func (c *ResonateServiceDocumentationUser) SetTransport(transport runtime.ClientTransport) {
 	c.Transport = transport
+	c.Membership.SetTransport(transport)
 	c.Usergroups.SetTransport(transport)
 	c.Users.SetTransport(transport)
 }
